@@ -26,7 +26,7 @@ print (len(table_rows))
 def process_table():
     data = []
     for row in table_rows[1:]:
-        cells = row.find_elements(By.TAG_NAME, 'td')
+        cells = row.find_elements(By.TAG_NAME, 'tr')
         cell_data = []
         for cell in cells:
                 if cell.find_elements(By.TAG_NAME, 'a'):
@@ -40,7 +40,7 @@ def process_table():
         data.append(cell_data)
 
     trimmed_data = [(d[1:]) for d in data]
-    return trimmed_data 
+    print (trimmed_data) 
 
 
 
