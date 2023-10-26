@@ -41,31 +41,21 @@ for page in range(0, 1):
             if cell.find_elements(By.TAG_NAME, 'a'):
                 href = cell.find_element(By.TAG_NAME, 'a')
                 href_attribute = href.get_attribute("href")
-                cell_data.append(href_attribute + '----HREF')
+                cell_data.append(href_attribute)
                 cell_data.append(href.text + '--NAME')
-                if href_attribute:
-                    driver.execute_script("window.open('', '_blank');")
-                    driver.switch_to.window(driver.window_handles[1])
-                    driver.get(href_attribute)
-
-                    wait= WebDriverWait(driver, 0.1)
-                    
-                    pdf_link = driver.find_element(By.CSS_SELECTOR, 'div.content h1.title.page-title a')
-                    pdf_url = pdf_link.get_attribute('href')
-                    
-                    driver.close()
-                    driver.switch_to.window(driver.window_handles[0])
+                pdf_link = href_attribute.replace('#suchwort=','')
+                cell_data.append(pdf_link + '/pdf')
             else:
                 text = cell.text
                 cell_data.append(text)
 
-            data.append(cell_data)
+        data.append(cell_data[1:])
     
     trimmed_data = [d[1:] for d in data]
 
 driver.close()
 
-print('Trimmed_data:', len(trimmed_data), trimmed_data[1])
+print('Trimmed_data:', len(trimmed_data),trimmed_data[1])
 
 labels = ['Erste Instanz','Aktenzeichen (1. Instanz)','Datum (1. Instanz)','Zweite Instanz','Aktenzeichen (2. Instanz)','Datum (2. Instanz)','Aktenzeichen (3. Instanz)','Datum (3. Instanz)','Gericht', 'Erstellt', 'PAGE_URL','PDF_URL','TEXT']
 
