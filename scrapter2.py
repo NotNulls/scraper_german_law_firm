@@ -41,17 +41,20 @@ for page in range(0, 1):
             if cell.find_elements(By.TAG_NAME, 'a'):
                 href = cell.find_element(By.TAG_NAME, 'a')
                 href_attribute = href.get_attribute("href")
-                driver.execute_script("window.open('about:blank', 'new tab')")
-                driver.switch_to.window(driver.window_handles[1])
-                driver.get(href_attribute)
-                wait= WebDriverWait(driver, 0.1)
-                # pdf_url = driver.find_element(By.TAG_NAME,'a').get_attribute('href')
-                # if pdf_url.endswith('pdf'):
-                #     cell_data.append(pdf_url)
-                driver.close()
-                driver.switch_to.window(driver.window_handles[0])
                 cell_data.append(href_attribute + '----HREF')
                 cell_data.append(href.text + '--NAME')
+                if href_attribute:
+                    driver.execute_script("window.open('', '_blank');")
+                    driver.switch_to.window(driver.window_handles[1])
+                    driver.get(href_attribute)
+
+                    wait= WebDriverWait(driver, 0.1)
+                    
+                    pdf_link = driver.find_element(By.CSS_SELECTOR, 'div.content h1.title.page-title a')
+                    pdf_url = pdf_link.get_attribute('href')
+                    
+                    driver.close()
+                    driver.switch_to.window(driver.window_handles[0])
             else:
                 text = cell.text
                 cell_data.append(text)
